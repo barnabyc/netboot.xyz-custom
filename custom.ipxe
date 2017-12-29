@@ -13,7 +13,6 @@ goto ${custom_choice}
 goto custom_exit
 
 :rock_and_roll
-cpuid --ext 29 && set arch amd64 || set arch x86
 kernel http://${boot_domain}/wimboot
 initrd ${win_url}/install.bat install.bat
 initrd ${win_url}/winpeshl.ini winpeshl.ini
