@@ -29,6 +29,7 @@ echo Checking wimboot signature...
 imgverify wimboot ${sigs}wimboot.sig || goto error
 
 :skip_sigs
+imgstat
 boot || goto custom_exit
 
 :custom_exit
