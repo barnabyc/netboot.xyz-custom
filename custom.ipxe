@@ -13,11 +13,12 @@ goto ${custom_choice}
 goto custom_exit
 
 :rock_and_roll
+imgfree
 kernel http://${boot_domain}/wimboot
 initrd ${win_url}/install.bat install.bat
 initrd ${win_url}/winpeshl.ini winpeshl.ini
 initrd ${win_url}/bootmgr bootmgr
-initrd ${win_url}/boot/bcd BCD
+initrd ${win_url}/boot/bcd bcd
 initrd ${win_url}/boot/boot.sdi boot.sdi
 initrd ${win_url}/sources/boot.wim boot.wim
 md5sum wimboot
