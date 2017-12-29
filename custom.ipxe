@@ -1,12 +1,34 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
 
-:start
-echo Hello world!
-sleep 10
+set win_url http://boot/winpe/x64
+
+:custom
+clear custom_choice
+menu Happy custom thing land
+item --gap Windows Installers
+item rock_and_roll ${space} Automatically install Windows 10 x64
+choose custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
 goto custom_exit
 
+:rock_and_roll
+cpuid --ext 29 && set arch amd64 || set arch x86
+kernel http://${boot_domain}/wimboot
+initrd ${win_url}/install.bat install.bat
+initrd ${win_url}/winpeshl.ini winpeshl.ini
+initrd ${win_url}/bootmgr bootmgr
+initrd ${win_url}/media/boot/bcd bcd
+initrd ${win_url}/media/boot/boot.sdi boot.sdi
+initrd ${win_url}/media/sources/boot.wim boot.wim
+md5sum wimboot
+iseq ${img_sigs_enabled} true && goto verify_sigs || goto skip_sigs
+:verify_sigs
+echo
+echo Checking wimboot signature...
+imgverify wimboot ${sigs}wimboot.sig || goto error
+:skip_sigs
+boot
+
 :custom_exit
-exit 0
+exit
