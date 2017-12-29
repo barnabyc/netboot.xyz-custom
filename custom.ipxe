@@ -18,9 +18,9 @@ kernel http://${boot_domain}/wimboot
 initrd ${win_url}/install.bat install.bat
 initrd ${win_url}/winpeshl.ini winpeshl.ini
 initrd ${win_url}/bootmgr bootmgr
-initrd ${win_url}/media/boot/bcd bcd
-initrd ${win_url}/media/boot/boot.sdi boot.sdi
-initrd ${win_url}/media/sources/boot.wim boot.wim
+initrd ${win_url}/boot/bcd bcd
+initrd ${win_url}/boot/boot.sdi boot.sdi
+initrd ${win_url}/sources/boot.wim boot.wim
 md5sum wimboot
 iseq ${img_sigs_enabled} true && goto verify_sigs || goto skip_sigs
 :verify_sigs
