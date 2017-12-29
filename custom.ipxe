@@ -1,6 +1,7 @@
 #!ipxe
 
-set win_url http://boot/winpe/x64
+set base_url http://boot/winpe
+set win_url ${base_url}/x64
 
 :custom
 clear custom_choice
@@ -14,20 +15,23 @@ goto custom_exit
 
 :rock_and_roll
 imgfree
-kernel http://${boot_domain}/wimboot
+# Use newer wimboot 2.6.0 to enable dynamic patching
+kernel ${base_url}/wimboot
 initrd ${win_url}/install.bat install.bat
 initrd ${win_url}/winpeshl.ini winpeshl.ini
 initrd ${win_url}/bootmgr bootmgr
 initrd ${win_url}/boot/bcd bcd
 initrd ${win_url}/boot/boot.sdi boot.sdi
 initrd ${win_url}/sources/boot.wim boot.wim
-md5sum wimboot
-iseq ${img_sigs_enabled} true && goto verify_sigs || goto skip_sigs
 
-:verify_sigs
-echo
-echo Checking wimboot signature...
-imgverify wimboot ${sigs}wimboot.sig || goto error
+# todo: generate sig file for wimboot 2.6.0
+# md5sum wimboot
+# iseq ${img_sigs_enabled} true && goto verify_sigs || goto skip_sigs
+#
+# :verify_sigs
+# echo
+# echo Checking wimboot signature...
+# imgverify wimboot ${sigs}wimboot.sig || goto error
 
 :skip_sigs
 imgstat
